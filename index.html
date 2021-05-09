@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>myReact</title>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script src="index.js"></script>
+		<script type="text/javascript">
+			const element = MyReact.createElement(
+				"div",
+				{
+					id: "foo",
+				},
+				MyReact.createElement("a", null, "bara "),
+				MyReact.createElement(
+					() => {
+						const [state, setState] = MyReact.useState(0);
+
+						return MyReact.createElement(
+							"p",
+							{
+								onClick: () => {
+									setState((c) => c + 1);
+								},
+							},
+							state
+						);
+					},
+					{ name: "cfoo" }
+				)
+			);
+			const container = document.getElementById("root");
+			container.appendChild(element);
+		</script>
+	</body>
+</html>
