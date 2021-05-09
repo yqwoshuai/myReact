@@ -13,28 +13,44 @@
 			const element = MyReact.createElement(
 				"div",
 				{
-					id: "foo",
+					id: "app",
+          title: "count"
 				},
-				MyReact.createElement("a", null, "bara "),
-				MyReact.createElement(
-					() => {
-						const [state, setState] = MyReact.useState(0);
-
-						return MyReact.createElement(
-							"p",
+				MyReact.createElement(() => {
+					const [state, setState] = MyReact.useState(1);
+					return MyReact.createElement(
+						"div",
+						null,
+						MyReact.createElement(
+							"h1",
 							{
-								onClick: () => {
-									setState((c) => c + 1);
-								},
+								id: "count",
 							},
+							"Count: ",
 							state
-						);
-					},
-					{ name: "cfoo" }
-				)
+						),
+						MyReact.createElement(
+							"button",
+							{
+								class: "add",
+								onClick: () => setState((c) => c + 1),
+							},
+							"+"
+						),
+						MyReact.createElement(
+							"button",
+							{
+								class: "sub",
+								onClick: () => setState((c) => c - 1),
+							},
+							"-"
+						)
+					);
+				})
 			);
+
 			const container = document.getElementById("root");
-			container.appendChild(element);
+			MyReact.render(element, container);
 		</script>
 	</body>
 </html>
