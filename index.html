@@ -14,7 +14,7 @@
 				"div",
 				{
 					id: "app",
-          title: "count"
+					title: "count",
 				},
 				MyReact.createElement(() => {
 					const [state, setState] = MyReact.useState(1);
@@ -44,6 +44,14 @@
 								onClick: () => setState((c) => c - 1),
 							},
 							"-"
+						),
+						MyReact.createElement(
+							"button",
+							{
+								class: "reset",
+								onClick: () => setState(1),
+							},
+							"reset"
 						)
 					);
 				})
