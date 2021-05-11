@@ -261,15 +261,18 @@ function createTextElement(text) {
 
 // 判断某个props是否为事件
 const isEvent = (key) => key.startsWith("on");
-// 剔除children属性和事件类型的props
-const isProperty = (key) => key !== "children" && !isEvent(key);
+// style属性特殊处理
+const isStyle = (key) => key === "style";
+// 剔除children属性、事件类型、和style属性 props
+const isProperty = (key) =>
+	key !== "children" && !isEvent(key) && !isStyle(key);
 // 判断某个props是否需要更新，新增也是更新的一种
 const isNew = (prev, next) => (key) => prev[key] !== next[key];
 // 判断某个props是否需要删除
 const isGone = (prev, next) => (key) => !(key in next);
 // 更新dom，新增也属于更新，
 function updateDom(dom, prevProps, nextProps) {
-	// 遍历之前的事件类型props，删除已经不存在的事件监听
+	// 遍历更新前的事件类型props，删除已经不存在的事件监听
 	Object.keys(prevProps)
 		.filter(isEvent)
 		.filter((key) => !(key in nextProps) || isNew(prevProps, nextProps)(key))
@@ -278,7 +281,7 @@ function updateDom(dom, prevProps, nextProps) {
 			dom.removeEventListener(eventType, prevProps[name]);
 		});
 
-	// 遍历之前的props，将需要删除的props置空
+	// 遍历更新前的props，将需要删除的props置空
 	Object.keys(prevProps)
 		.filter(isProperty)
 		.filter(isGone(prevProps, nextProps))
@@ -286,7 +289,7 @@ function updateDom(dom, prevProps, nextProps) {
 			dom[name] = "";
 		});
 
-	// 遍历之后的props，将新增的props赋值给dom
+	// 遍历更新后的props，将新增的props赋值给dom
 	Object.keys(nextProps)
 		.filter(isProperty)
 		.filter(isNew(prevProps, nextProps))
@@ -294,7 +297,15 @@ function updateDom(dom, prevProps, nextProps) {
 			dom[name] = nextProps[name];
 		});
 
-	// 遍历之后的事件类型props，设置新的事件监听
+	// 取出更新后的style，设置style
+	if (nextProps.style) {
+		const style = nextProps.style;
+		for (key in style) {
+			dom.style[key] = style[key];
+		}
+	}
+
+	// 遍历更新后的事件类型props，设置新的事件监听
 	Object.keys(nextProps)
 		.filter(isEvent)
 		.filter(isNew(prevProps, nextProps))
