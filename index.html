@@ -18,6 +18,16 @@
 				},
 				MyReact.createElement(() => {
 					const [state, setState] = MyReact.useState(1);
+					MyReact.useEffect(() => {
+						console.log('初始化');
+					}, []);
+					MyReact.useEffect(() => {
+						console.log('更新');
+					});
+					MyReact.useEffect(() => {
+						console.log('state变化');
+					}, [state]);
+
 					return MyReact.createElement(
 						"div",
 						null,
@@ -45,7 +55,7 @@
 							"button",
 							{
 								class: "sub",
-								onClick: () => setState((c) => c - 1),
+								onClick: () => setState((c) => (c - 1 > 0 ? c - 1 : 0)),
 							},
 							"-"
 						),
@@ -56,7 +66,10 @@
 								onClick: () => setState(1),
 							},
 							"reset"
-						)
+						),
+						new Array(state)
+							.fill(0)
+							.map((item, index) => MyReact.createElement("p", null, index + 1))
 					);
 				})
 			);

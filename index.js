@@ -3,6 +3,7 @@ const MyReact = {
 	createElement,
 	render,
 	useState,
+	useEffect
 };
 
 // 初始化阶段，启动渲染
@@ -240,7 +241,8 @@ function createElement(type, props, ...children) {
 		props: {
 			...props,
 			// 遍历所有子节点，文本节点特殊处理
-			children: children.map((child) => {
+			// 某些子节点本身可能已经是数组，所以需要做一次铺平处理
+			children: children.flat().map((child) => {
 				return typeof child === "object" ? child : createTextElement(child);
 			}),
 		},
