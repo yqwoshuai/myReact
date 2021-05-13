@@ -218,6 +218,11 @@ function useState(initial) {
 	return [hook.state, setState];
 }
 
+// 定义effect hook
+function useEffect(fn, arr){
+	
+}
+
 // 为fiber节点创建dom
 function createDom(fiber) {
 	// 根据是否为文本节点创建dom

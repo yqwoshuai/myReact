@@ -19,15 +19,17 @@
 				MyReact.createElement(() => {
 					const [state, setState] = MyReact.useState(1);
 					MyReact.useEffect(() => {
-						console.log('初始化');
+						console.log("初始化");
+						return () => {
+							console.log("卸载");
+						};
 					}, []);
 					MyReact.useEffect(() => {
-						console.log('更新');
+						console.log("更新");
 					});
 					MyReact.useEffect(() => {
-						console.log('state变化');
+						console.log("state变化");
 					}, [state]);
-
 					return MyReact.createElement(
 						"div",
 						null,
